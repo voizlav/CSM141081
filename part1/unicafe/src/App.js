@@ -5,17 +5,17 @@ const Header = ({heading}) => <h1>{heading}</h1>
 
 const Button = ({trigger, feedback}) => <button onClick={trigger}>{feedback}</button>
 
-const Stat = ({feedback, data}) => <p>{feedback} {data}</p>
+const StatisticLine = ({feedback, data}) => <p>{feedback} {data}</p>
 
-const Stats = ({feedback: {good, neutral, bad}}) => 
+const Statistics = ({feedback: {good, neutral, bad}}) => 
   good + neutral + bad === 0 ? <p>No feedback given</p> : (
     <>
-      <Stat feedback={'good'} data={good}/>
-      <Stat feedback={'neutral'} data={neutral}/>
-      <Stat feedback={'bad'} data={bad}/>
-      <Stat feedback={'all'} data={good + neutral + bad} />
-      <Stat feedback={'average'} data={(good - bad) / (good + neutral + bad)} />
-      <Stat feedback={'positive'} data={`${(good) / (good + neutral + bad) * 100}%`} />
+      <StatisticLine feedback={'good'} data={good}/>
+      <StatisticLine feedback={'neutral'} data={neutral}/>
+      <StatisticLine feedback={'bad'} data={bad}/>
+      <StatisticLine feedback={'all'} data={good + neutral + bad} />
+      <StatisticLine feedback={'average'} data={(good - bad) / (good + neutral + bad)} />
+      <StatisticLine feedback={'positive'} data={`${(good) / (good + neutral + bad) * 100}%`} />
     </>
   )
 
@@ -32,7 +32,7 @@ const App = () => {
       <Button feedback={'neutral'} trigger={() => setNeutral(neutral + 1)} />
       <Button feedback={'bad'} trigger={() => setBad(bad + 1)} />
       <Header heading={'statistics'} />
-      <Stats feedback={{'good': good, 'neutral': neutral, 'bad': bad}} />
+      <Statistics feedback={{'good': good, 'neutral': neutral, 'bad': bad}} />
     </>
   )
 }
