@@ -3,6 +3,7 @@ import { useState } from 'react'
 
 const Header = ({heading}) => <h1>{heading}</h1>
 
+// Note: It seems that I did step 3 already in step 1 instinctively
 const Stats = ({feedback, data}) => <p>{feedback} {data}</p>
 
 const Button = ({trigger, feedback}) => <button onClick={trigger}>{feedback}</button>
