@@ -3,6 +3,7 @@ import { useState } from 'react'
 
 const Button = ({trigger}) => <button onClick={trigger}>next anecdote</button>
 
+const DisplayAnecdote = ({anecdote}) => <p>{anecdote}</p>
 
 const App = () => {
   const anecdotes = [
@@ -19,7 +20,7 @@ const App = () => {
 
   return (
     <div>
-      {anecdotes[selected]}
+      <DisplayAnecdote anecdote={anecdotes[selected]} />
       <Button trigger={() => setSelected(Math.floor(Math.random() * anecdotes.length))} />
     </div>
   )
