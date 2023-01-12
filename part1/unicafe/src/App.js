@@ -5,18 +5,20 @@ const Header = ({heading}) => <h1>{heading}</h1>
 
 const Button = ({trigger, feedback}) => <button onClick={trigger}>{feedback}</button>
 
-const StatisticLine = ({feedback, data}) => <p>{feedback} {data}</p>
+const StatisticLine = ({feedback, data}) => <tr><td>{feedback}</td><td>{data}</td></tr>
 
 const Statistics = ({feedback: {good, neutral, bad}}) => 
   good + neutral + bad === 0 ? <p>No feedback given</p> : (
-    <>
-      <StatisticLine feedback={'good'} data={good}/>
-      <StatisticLine feedback={'neutral'} data={neutral}/>
-      <StatisticLine feedback={'bad'} data={bad}/>
-      <StatisticLine feedback={'all'} data={good + neutral + bad} />
-      <StatisticLine feedback={'average'} data={(good - bad) / (good + neutral + bad)} />
-      <StatisticLine feedback={'positive'} data={`${(good) / (good + neutral + bad) * 100}%`} />
-    </>
+    <table>
+      <tbody>
+        <StatisticLine feedback={'good'} data={good}/>
+        <StatisticLine feedback={'neutral'} data={neutral}/>
+        <StatisticLine feedback={'bad'} data={bad}/>
+        <StatisticLine feedback={'all'} data={good + neutral + bad} />
+        <StatisticLine feedback={'average'} data={(good - bad) / (good + neutral + bad)} />
+        <StatisticLine feedback={'positive'} data={`${(good) / (good + neutral + bad) * 100}%`} />
+      </tbody>
+    </table>
   )
 
 
