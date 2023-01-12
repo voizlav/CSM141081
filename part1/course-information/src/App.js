@@ -5,9 +5,9 @@ const Header = ({data: {name, parts}}) => {
 }
 
 
-const Part = ({part}) => {
+const Part = ({part: {name, exercises}}) => {
   return (
-    <p>{part.name} {part.exercises}</p>
+    <p>{name} {exercises}</p>
   )
 }
 
