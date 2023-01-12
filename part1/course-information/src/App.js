@@ -1,4 +1,4 @@
-const Header = ({data: {name, parts}}) => {
+const Header = ({data: {name}}) => {
   return (
     <h1>{name}</h1>
   )
@@ -12,7 +12,7 @@ const Part = ({part: {name, exercises}}) => {
 }
 
 
-const Content = ({data: {name, parts}}) => {
+const Content = ({data: {parts}}) => {
   const [part1, part2, part3] = parts
   return (
     <div>
@@ -24,7 +24,7 @@ const Content = ({data: {name, parts}}) => {
 }
 
 
-const Total = ({data: {name, parts}}) => {
+const Total = ({data: {parts}}) => {
   const [part1, part2, part3] = parts
   return (
     <p>Number of exercises {part1.exercises + part2.exercises + part3.exercises}</p>
