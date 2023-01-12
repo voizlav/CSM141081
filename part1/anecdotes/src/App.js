@@ -1,5 +1,9 @@
 import { useState } from 'react'
 
+
+const Button = ({trigger}) => <button onClick={trigger}>next anecdote</button>
+
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -16,6 +20,7 @@ const App = () => {
   return (
     <div>
       {anecdotes[selected]}
+      <Button trigger={() => setSelected(Math.floor(Math.random() * anecdotes.length))} />
     </div>
   )
 }
