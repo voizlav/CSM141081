@@ -24,6 +24,7 @@ const App = () => {
       <Stats feedback={'good'} data={good} />
       <Stats feedback={'neutral'} data={neutral} />
       <Stats feedback={'bad'} data={bad} />
+      <Stats feedback={'all'} data={good + neutral + bad} />
     </div>
   )
 }
