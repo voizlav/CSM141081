@@ -9,11 +9,10 @@ const Button = ({trigger, feedback}) => <button onClick={trigger}>{feedback}</bu
 
 
 const App = () => {
-  // save clicks of each button to its own state
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
-
+  
   return (
     <div>
       <Header heading={'Give feedback'} />
@@ -25,6 +24,7 @@ const App = () => {
       <Stats feedback={'neutral'} data={neutral} />
       <Stats feedback={'bad'} data={bad} />
       <Stats feedback={'all'} data={good + neutral + bad} />
+      <Stats feedback={'average'} data={(good - bad) / (good + neutral + bad)}/>
     </div>
   )
 }
