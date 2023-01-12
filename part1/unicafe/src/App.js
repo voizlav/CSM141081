@@ -5,7 +5,7 @@ const Header = ({heading}) => <h1>{heading}</h1>
 
 const Stats = ({feedback, data}) => <p>{feedback} {data}</p>
 
-const Button = (props) => <button onClick={props.trigger}>{props.feedback}</button>
+const Button = ({trigger, feedback}) => <button onClick={trigger}>{feedback}</button>
 
 
 const App = () => {
