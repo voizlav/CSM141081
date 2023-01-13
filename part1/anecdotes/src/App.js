@@ -1,9 +1,9 @@
 import { useState } from 'react'
 
 
-const Button = ({trigger}) => <button onClick={trigger}>next anecdote</button>
+const Button = ({trigger, label}) => <button onClick={trigger}>{label}</button>
 
-const DisplayAnecdote = ({anecdote}) => <p>{anecdote}</p>
+const Display = ({data}) => <p>{data}</p>
 
 const App = () => {
   const anecdotes = [
@@ -15,14 +15,16 @@ const App = () => {
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.'
   ]
-   
   const [selected, setSelected] = useState(0)
+  const [points, setPoints] = useState(Object.assign({}, ...anecdotes.map((_, i) => ({ [i]: 0 }))))
 
   return (
-    <div>
-      <DisplayAnecdote anecdote={anecdotes[selected]} />
-      <Button trigger={() => setSelected(Math.floor(Math.random() * anecdotes.length))} />
-    </div>
+    <>
+      <Display data={anecdotes[selected]} />
+      <Display data={points[selected]} />
+      <Button label={'vote'} trigger={() => setPoints({...points, [selected]: points[selected] + 1})} />
+      <Button label={'next anecdote'} trigger={() => setSelected(Math.floor(Math.random() * anecdotes.length))} />
+    </>
   )
 }
 
