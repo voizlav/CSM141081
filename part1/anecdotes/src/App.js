@@ -5,6 +5,8 @@ const Button = ({trigger, label}) => <button onClick={trigger}>{label}</button>
 
 const Display = ({data}) => <p>{data}</p>
 
+const Header = ({heading}) => <h2>{heading}</h2>
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -20,9 +22,10 @@ const App = () => {
 
   return (
     <>
+      <Header heading={'Anecdote of the day'} />
       <Display data={anecdotes[selected]} />
-      <Display data={points[selected]} />
-      <Button label={'vote'} trigger={() => setPoints({...points, [selected]: points[selected] + 1})} />
+      <Display data={`has ${points[selected]} points`} />
+      <Button label={'vote'} trigger={() => setPoints({...points, [selected]: points[selected] + 1 })} />
       <Button label={'next anecdote'} trigger={() => setSelected(Math.floor(Math.random() * anecdotes.length))} />
     </>
   )
