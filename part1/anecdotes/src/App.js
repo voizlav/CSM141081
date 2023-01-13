@@ -27,6 +27,9 @@ const App = () => {
       <Display data={`has ${points[selected]} points`} />
       <Button label={'vote'} trigger={() => setPoints({...points, [selected]: points[selected] + 1 })} />
       <Button label={'next anecdote'} trigger={() => setSelected(Math.floor(Math.random() * anecdotes.length))} />
+      <Header heading={'Anecdote with most votes'} />
+      <Display data={anecdotes[Object.keys(points)[Object.values(points).indexOf(Math.max(...Object.values(points)))]]} />
+      <Display data={`has ${Math.max(...Object.values(points))} points`} />
     </>
   )
 }
