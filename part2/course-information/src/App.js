@@ -1,6 +1,7 @@
 const Header = ({ course }) => <h1>{course}</h1>
 
-const Total = ({ sum }) => <p>Total of {sum} exercises</p>
+const Total = ({ sum }) =>
+  <p><b>Total of {sum.reduce((total, part) => total + part.exercises, 0)} exercises</b></p>
 
 const Part = ({ part }) => <p>{part.name} {part.exercises}</p>
 
@@ -41,7 +42,12 @@ const App = () => {
     ]
   }
 
-  return <Course course={course} />
+  return (
+    <>
+    <Course course={course} />
+    <Total sum={course.parts} />
+    </>
+  )
 }
 
 export default App
