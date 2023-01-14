@@ -9,26 +9,14 @@ const Part = ({ part }) =>
 
 
 const Content = ({ parts }) => 
-  <>
-    <Part
-      part={parts[0]} 
-    />
-    <Part
-      part={parts[1]} 
-    />
-    <Part
-      part={parts[2]} 
-    />      
-  </>
+  parts.map(part => <Part key={part.id} part={part}/>)
 
-const Course = ({course}) => {
-  return (
-    <>
-      <Header course={course.name} />
-      <Content parts={course.parts} />
-    </>
-  )
-}
+  
+const Course = ({course}) => 
+  <>
+    <Header course={course.name} />
+    <Content parts={course.parts} />
+  </>
 
 
 const App = () => {
