@@ -8,11 +8,14 @@ const Part = ({ part }) => <p>{part.name} {part.exercises}</p>
 const Content = ({ parts }) => 
   parts.map(part => <Part key={part.id} part={part} />)
 
-const Course = ({course}) => 
-  <>
-    <Header course={course.name} />
-    <Content parts={course.parts} />
-  </>
+const Course = ({courses}) => 
+  courses.map(course => 
+    <div key={course.id} >
+      <Header course={course.name} />
+      <Content parts={course.parts} />
+      <Total sum={course.parts} />
+    </div>
+  )
 
 const App = () => {
   const courses = [
@@ -60,12 +63,7 @@ const App = () => {
     }
   ]
 
-  return (
-    <>
-    <Course course={courses} />
-    <Total sum={courses.parts} />
-    </>
-  )
+  return (<Course courses={courses} />)
 }
 
 export default App
