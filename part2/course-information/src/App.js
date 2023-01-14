@@ -21,6 +21,15 @@ const Content = ({ parts }) =>
     />      
   </>
 
+const Course = ({course}) => {
+  return (
+    <>
+      <Header course={course.name} />
+      <Content parts={course.parts} />
+    </>
+  )
+}
+
 
 const App = () => {
   const course = {
