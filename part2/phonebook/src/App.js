@@ -1,5 +1,8 @@
 import { useState } from 'react'
 
+
+const Header = ({heading}) => <h2>{heading}</h2>
+
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas' }
@@ -8,7 +11,7 @@ const App = () => {
 
   return (
     <div>
-      <h2>Phonebook</h2>
+      <Header heading={'Phonebook'} />
       <form>
         <div>
           name: <input />
@@ -17,7 +20,7 @@ const App = () => {
           <button type="submit">add</button>
         </div>
       </form>
-      <h2>Numbers</h2>
+      <Header heading={'Numbers'} />
       ...
     </div>
   )
