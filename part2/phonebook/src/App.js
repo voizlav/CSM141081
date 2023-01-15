@@ -3,6 +3,8 @@ import { useState } from 'react'
 
 const Header = ({heading}) => <h2>{heading}</h2>
 
+const Button = ({title}) => <button type='submit'>{title}</button>
+
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas' }
@@ -17,7 +19,7 @@ const App = () => {
           name: <input />
         </div>
         <div>
-          <button type="submit">add</button>
+          <Button title={'new'} />
         </div>
       </form>
       <Header heading={'Numbers'} />
