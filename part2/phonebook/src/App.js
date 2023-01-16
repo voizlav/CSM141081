@@ -29,12 +29,13 @@ const App = () => {
     setNewNumber('')
   }
 
-  const filtered = persons.filter(person => person.name.includes(newFilter))
+  const filtered = persons.filter(person => 
+    person.name.toLocaleLowerCase().includes(newFilter.toLocaleLowerCase()))
 
   return (
     <div>
       <Header heading={'Phonebook'} />
-      <Input title={'filter'} value={newFilter} trigger={(e) => setNewFilter(e.target.value)} />
+      <Input title={'filter shown with'} value={newFilter} trigger={(e) => setNewFilter(e.target.value)} />
       <Header heading={'Add new'} />
       <form onSubmit={addPerson}>
         <Input title={'name'} value={newName} trigger={(e) => setNewName(e.target.value)} />
