@@ -16,30 +16,35 @@ const App = () => {
   ]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [newFilter, setNewFilter] = useState('')
 
   const addPerson = (e) => {
     e.preventDefault()
 
-    !persons.map(person => person.name).includes(newName)
-    ? setPersons([...persons, { name: newName, number: newNumber }])
-    : alert(`${newName} already in phonebook`)
+    persons.every(person => person.name === newName)
+    ? alert(`${newName} already in phonebook`)
+    : setPersons([...persons, { name: newName, number: newNumber }])
 
     setNewName('')
     setNewNumber('')
   }
 
+  const filtered = persons.filter(person => person.name.includes(newFilter))
+
   return (
     <div>
       <Header heading={'Phonebook'} />
+      <Input title={'filter'} value={newFilter} trigger={(e) => setNewFilter(e.target.value)} />
+      <Header heading={'Add new'} />
       <form onSubmit={addPerson}>
         <Input title={'name'} value={newName} trigger={(e) => setNewName(e.target.value)} />
         <Input title={'number'} value={newNumber} trigger={(e) => setNewNumber(e.target.value)} />
         <div>
-          <Button title={'new'} />
+          <Button title={'add'} />
         </div>
       </form>
       <Header heading={'Numbers'} />
-      {persons.map(person => <Display key={person.name} person={person} />)}
+      {filtered.map(person => <Display key={person.name} person={person} />)}
     </div>
   )
 }
