@@ -10,6 +10,17 @@ const Button = ({title}) => <button type='submit'>{title}</button>
 const Input = ({title, value, trigger}) => 
   <div>{title}: <input value={value} onChange={trigger}/></div>
 
+const Form = ({add, name, number, newName, newNumber}) =>
+  <div>
+    <form onSubmit={add}>
+      <Input title={'name'} value={name} trigger={newName} />
+      <Input title={'number'} value={number} trigger={newNumber} />
+      <div>
+        <Button title={'add'} />
+      </div>
+    </form>
+  </div>
+
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-123456', id: 1 },
@@ -40,13 +51,13 @@ const App = () => {
       <Header heading={'Phonebook'} />
       <Input title={'filter shown with'} value={newFilter} trigger={(e) => setNewFilter(e.target.value)} />
       <Header heading={'Add new'} />
-      <form onSubmit={addPerson}>
-        <Input title={'name'} value={newName} trigger={(e) => setNewName(e.target.value)} />
-        <Input title={'number'} value={newNumber} trigger={(e) => setNewNumber(e.target.value)} />
-        <div>
-          <Button title={'add'} />
-        </div>
-      </form>
+      <Form 
+        add={addPerson} 
+        name={newName} 
+        number={newNumber} 
+        newName={(e) => setNewName(e.target.value)}
+        newNumber={(e) => setNewNumber(e.target.value)}
+      />
       <Header heading={'Numbers'} />
       {filtered.map(person => <Display key={person.name} person={person} />)}
     </div>
