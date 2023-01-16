@@ -3,6 +3,8 @@ import { useState } from 'react'
 
 const Header = ({heading}) => <h2>{heading}</h2>
 
+const Display = ({name}) => <p>{name}</p>
+
 const Button = ({title}) => <button type='submit'>{title}</button>
 
 const App = () => {
@@ -11,19 +13,29 @@ const App = () => {
   ]) 
   const [newName, setNewName] = useState('')
 
+  const addName = (e) => {
+    e.preventDefault()
+    setPersons([...persons, { name: newName }])
+    setNewName('')
+  }
+  
   return (
     <div>
       <Header heading={'Phonebook'} />
-      <form>
+      <form onSubmit={addName}>
         <div>
-          name: <input />
+          name: 
+          <input 
+            value={newName}
+            onChange={(e) => setNewName(e.target.value)}
+          />
         </div>
         <div>
           <Button title={'new'} />
         </div>
       </form>
       <Header heading={'Numbers'} />
-      ...
+      {persons.map(person => <Display key={person.name} name={person.name} />)}
     </div>
   )
 }
