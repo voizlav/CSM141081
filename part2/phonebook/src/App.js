@@ -15,10 +15,14 @@ const App = () => {
 
   const addName = (e) => {
     e.preventDefault()
-    setPersons([...persons, { name: newName }])
+
+    !persons.map(person => person.name).includes(newName)
+    ? setPersons([...persons, { name: newName }])
+    : alert(`${newName} already in phonebook`)
+
     setNewName('')
   }
-  
+
   return (
     <div>
       <Header heading={'Phonebook'} />
