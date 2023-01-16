@@ -23,10 +23,10 @@ const Form = ({add, name, number, newName, newNumber}) =>
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456', id: 1 },
-    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
-    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
-    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
+    { name: 'Arto Hellas', number: '040-123456' },
+    { name: 'Ada Lovelace', number: '39-44-5323523' },
+    { name: 'Dan Abramov', number: '12-43-234345' },
+    { name: 'Mary Poppendieck', number: '39-23-6423122' }
   ]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
@@ -35,7 +35,8 @@ const App = () => {
   const addPerson = (e) => {
     e.preventDefault()
 
-    persons.every(person => person.name === newName)
+    persons.find(person => 
+      person.name.toLocaleLowerCase() === newName.toLocaleLowerCase()) !== undefined
     ? alert(`${newName} already in phonebook`)
     : setPersons([...persons, { name: newName, number: newNumber }])
 
@@ -49,7 +50,11 @@ const App = () => {
   return (
     <div>
       <Header heading={'Phonebook'} />
-      <Input title={'filter shown with'} value={newFilter} trigger={(e) => setNewFilter(e.target.value)} />
+      <Input 
+        title={'filter shown with'} 
+        value={newFilter} 
+        trigger={(e) => setNewFilter(e.target.value)} 
+      />
       <Header heading={'Add new'} />
       <Form 
         add={addPerson} 
@@ -59,7 +64,8 @@ const App = () => {
         newNumber={(e) => setNewNumber(e.target.value)}
       />
       <Header heading={'Numbers'} />
-      {filtered.map(person => <Display key={person.name} person={person} />)}
+      {filtered.map(person => 
+        <Display key={person.name} person={person} />)}
     </div>
   )
 }
