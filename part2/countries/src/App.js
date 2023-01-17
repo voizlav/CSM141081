@@ -2,6 +2,11 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 
 
+const DisplayCountries = ({country}) => 
+  <>
+    <p>{country.name.common}</p>
+  </>
+
 function App() {
   const [countries, setCountries] = useState([])
   const [filter, setFilter] = useState('')
@@ -16,11 +21,17 @@ function App() {
 
   return (
     <>
-      find countries: 
-      <input 
-        value={filter} 
-        onChange={(e) => setFilter(e.target.value.toLocaleLowerCase())} 
-      />
+      <div>
+        find countries: 
+        <input 
+          value={filter} 
+          onChange={(e) => setFilter(e.target.value.toLocaleLowerCase())} 
+        />
+      </div>
+      <div>
+        {filtered.map(country => 
+          <DisplayCountries key={country.flag} country={country} />)}
+      </div>
     </>
   )
 }
