@@ -1,5 +1,5 @@
-import { useState } from 'react'
-
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 
 const Header = ({heading}) => <h2>{heading}</h2>
 
@@ -22,15 +22,12 @@ const Form = ({add, name, number, newName, newNumber}) =>
   </div>
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456' },
-    { name: 'Ada Lovelace', number: '39-44-5323523' },
-    { name: 'Dan Abramov', number: '12-43-234345' },
-    { name: 'Mary Poppendieck', number: '39-23-6423122' }
-  ]) 
+  const [persons, setPersons] = useState([{ name: 'Arto Hellas', number: '040-123456'}]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
+
+  useEffect(() => { axios.get('http://localhost:3001/persons').then(res => setPersons(res.data))}, [])
 
   const addPerson = (e) => {
     e.preventDefault()
