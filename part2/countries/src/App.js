@@ -15,10 +15,15 @@ const DisplayCountry = ({country}) =>
     <img src={country.flags.png} height='100'/>
   </>
 
-const DisplayCountries = ({country}) => 
-  <>
-    <p>{country.name.common}</p>
-  </>
+
+const DisplayCountries = ({country, setFilter}) => 
+  <p>
+    {country.name.common}
+    <button onClick={() => setFilter(country.name.common.toLocaleLowerCase())}>
+      show
+    </button>
+  </p>
+
 
 function App() {
   const [countries, setCountries] = useState([])
@@ -30,22 +35,17 @@ function App() {
   const filtered = [...countries.filter(country => 
     country.name.common.toLocaleLowerCase().includes(filter))]
 
-  console.log(filtered)
-
   return (
     <>
       <div>
-        find countries: 
-        <input 
-          value={filter} 
-          onChange={(e) => setFilter(e.target.value.toLocaleLowerCase())} 
-        />
+        find countries 
+        <input value={filter} onChange={(e) => setFilter(e.target.value.toLocaleLowerCase())} />
       </div>
       <div>
         {filtered.length > 10 
         ? <p>Too many matches, specify another filter</p> 
         : filtered.length < 10 && filtered.length > 1
-        ? filtered.map(country => <DisplayCountries key={country.flag} country={country} />)
+        ? filtered.map(country => <DisplayCountries key={country.flag} country={country} setFilter={setFilter} />)
         : filtered.map(country => <DisplayCountry key={country.flag} country={country} />)}
       </div>
     </>
