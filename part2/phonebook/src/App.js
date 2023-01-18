@@ -33,7 +33,7 @@ const App = () => {
     e.preventDefault()
 
     persons.find(person => 
-      person.name.toLocaleLowerCase() === newName.toLocaleLowerCase()) !== undefined
+      person.name.toLocaleLowerCase() === newName.toLocaleLowerCase())
     ? alert(`${newName} already in phonebook`)
     : setPersons([...persons, { name: newName, number: newNumber }])
 
