@@ -2,6 +2,29 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 
 
+const DisplayWeather = ({capital}) => {
+  const API_KEY = process.env.REACT_APP_API_KEY
+  const [weather, setWeather] = useState({})
+
+  useEffect(() => {axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${capital}&appid=${API_KEY}`)
+  .then(res => setWeather(res.data))}, [])
+
+  return (
+    Object.keys(weather).length !== 0 
+    ? <>
+        <h2>Weather in {capital}</h2>
+        <p>temperature {(weather.main.temp - 273.15).toFixed(2)} °C</p>
+        <img 
+        src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`} 
+        alt={weather.weather[0].description}
+        />
+        <p>wind {weather.wind.speed} m/s</p>
+      </>
+    : <p>Loading data...</p>
+  )
+}
+
+
 const DisplayCountry = ({country}) =>
   <>
     <h1>{country.name.common}</h1>
@@ -12,7 +35,8 @@ const DisplayCountry = ({country}) =>
     {Object.values(country.languages).map(language => 
       <li key={language}>{language}</li>)}
     </ul>
-    <img src={country.flags.png} height='100'/>
+    <img src={country.flags.png} height='100' alt=''/>
+    <DisplayWeather capital={country.capital[0]} />
   </>
 
 
