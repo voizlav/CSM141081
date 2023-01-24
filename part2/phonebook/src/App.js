@@ -38,11 +38,21 @@ const App = () => {
   const addPerson = (e) => {
     e.preventDefault()
 
-    persons.find(person => 
+    const p = persons.find(person => 
       person.name.toLocaleLowerCase() === newName.toLocaleLowerCase())
-      ? alert(`${newName} already in phonebook`)
-      : service.createPerson({ name: newName, number: newNumber })
+
+    if (typeof p === 'object') {
+      if (window.confirm(`${p.name} already exist, change number?`)) {
+        service.updatePerson(p.id, { ...p, number: newNumber })
+        setPersons(persons.map(person => 
+          person.id === p.id 
+          ? { ...p, number: newNumber } 
+          : person))
+      }
+    } else {
+      service.createPerson({ name: newName, number: newNumber })
       .then(newPersonData => setPersons(persons.concat(newPersonData)))
+    }
 
     setNewName('')
     setNewNumber('')
