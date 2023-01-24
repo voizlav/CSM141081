@@ -34,8 +34,9 @@ const App = () => {
 
     persons.find(person => 
       person.name.toLocaleLowerCase() === newName.toLocaleLowerCase())
-    ? alert(`${newName} already in phonebook`)
-    : setPersons([...persons, { name: newName, number: newNumber }])
+      ? alert(`${newName} already in phonebook`)
+      : axios.post('http://localhost:3001/persons', { name: newName, number: newNumber })
+      .then(res => setPersons(persons.concat(res.data)))
 
     setNewName('')
     setNewNumber('')
