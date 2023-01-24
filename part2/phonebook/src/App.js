@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import service from './service/persons'
 
 
@@ -26,7 +25,7 @@ const AddPersonForm = ({add, name, number, newName, newNumber}) =>
 
 
 const App = () => {
-  const [persons, setPersons] = useState([{ name: 'Arto Hellas', number: '040-123456', id: 1 }]) 
+  const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
