@@ -9,27 +9,24 @@ const Header = ({heading}) => <h2>{heading}</h2>
 const Display = ({person: {name, number}}) => <p>{name} {number}</p>
 
 
-const Button = ({title}) => <button type='submit'>{title}</button>
-
-
 const Input = ({title, value, trigger}) => 
   <div>{title}: <input value={value} onChange={trigger}/></div>
 
 
-const Form = ({add, name, number, newName, newNumber}) =>
+const AddPersonForm = ({add, name, number, newName, newNumber}) =>
   <div>
     <form onSubmit={add}>
       <Input title={'name'} value={name} trigger={newName} />
       <Input title={'number'} value={number} trigger={newNumber} />
       <div>
-        <Button title={'add'} />
+      <button type='submit'>add</button>
       </div>
     </form>
   </div>
 
 
 const App = () => {
-  const [persons, setPersons] = useState([{ name: 'Arto Hellas', number: '040-123456'}]) 
+  const [persons, setPersons] = useState([{ name: 'Arto Hellas', number: '040-123456', id: 1 }]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
@@ -51,6 +48,11 @@ const App = () => {
     setNewNumber('')
   }
 
+  const removePerson = (id) => {
+    service.deletePerson(id)
+    setPersons(persons.filter(person => person.id != id))
+  }
+
   const filtered = persons.filter(person => 
     person.name.toLocaleLowerCase().includes(newFilter.toLocaleLowerCase()))
 
@@ -63,7 +65,7 @@ const App = () => {
         trigger={(e) => setNewFilter(e.target.value)} 
       />
       <Header heading={'Add new'} />
-      <Form 
+      <AddPersonForm 
         add={addPerson} 
         name={newName} 
         number={newNumber} 
@@ -72,7 +74,10 @@ const App = () => {
       />
       <Header heading={'Numbers'} />
       {filtered.map(person => 
-        <Display key={person.name} person={person} />)}
+        <div key={person.id}>
+          <Display person={person} />
+          <button onClick={() => removePerson(person.id)} >remove</button>
+        </div>)}
     </div>
   )
 }
