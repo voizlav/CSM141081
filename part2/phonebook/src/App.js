@@ -73,11 +73,18 @@ const App = () => {
         newNumber={(e) => setNewNumber(e.target.value)}
       />
       <Header heading={'Numbers'} />
-      {filtered.map(person => 
+      {
+      filtered.map(person => 
         <div key={person.id}>
           <Display person={person} />
-          <button onClick={() => removePerson(person.id)} >remove</button>
-        </div>)}
+          <button onClick={() => 
+            window.confirm(`Delete ${person.name}?`)
+            ? removePerson(person.id) : null } >
+            remove
+          </button>
+        </div>
+        )
+      }
     </div>
   )
 }
