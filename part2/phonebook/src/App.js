@@ -8,8 +8,8 @@ const Header = ({heading}) => <h2>{heading}</h2>
 const Display = ({person: {name, number}}) => <p>{name} {number}</p>
 
 
-const Notification = ({message}) => 
-  message === null ? null : <div className='success'><p>{message}</p></div>
+const Notification = ({message, type}) => 
+  message === null ? null : <div className={type}><p>{message}</p></div>
 
 
 const Input = ({title, value, trigger}) => 
@@ -35,8 +35,6 @@ const App = () => {
   const [newFilter, setNewFilter] = useState('')
   const [successMsg, setSuccessMsg] = useState(null)
   const [errorMsg, setErrorMsg] = useState(null)
-
-  console.log(persons);
 
   useEffect(() => {
     service.getAllPersons().then(personsData => setPersons(personsData))
@@ -64,12 +62,18 @@ const App = () => {
     setSuccessMsg(`Added ${newName}`)
     setTimeout(() => {
       setSuccessMsg(null)
-    }, 3000);
+    }, 3000)
   }
 
   const removePerson = (id) => {
     service.deletePerson(id)
-    setPersons(persons.filter(person => person.id !== id))
+    .then(setPersons(persons.filter(person => person.id !== id)))
+    .catch(error => {
+      setErrorMsg(`Information has already been removed from the server`)
+      setTimeout(() => {
+        setErrorMsg(null)
+      }, 5000);
+    })
   }
 
   const filtered = persons.filter(person => 
@@ -78,7 +82,8 @@ const App = () => {
   return (
     <div>
       <Header heading={'Phonebook'} />
-      <Notification message={successMsg} />
+      <Notification message={successMsg} type={'success'} />
+      <Notification message={errorMsg} type={'error'} />
       <Input 
         title={'filter shown with'} 
         value={newFilter} 
