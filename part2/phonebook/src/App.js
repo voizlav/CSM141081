@@ -34,6 +34,9 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
   const [successMsg, setSuccessMsg] = useState(null)
+  const [errorMsg, setErrorMsg] = useState(null)
+
+  console.log(persons);
 
   useEffect(() => {
     service.getAllPersons().then(personsData => setPersons(personsData))
@@ -42,16 +45,14 @@ const App = () => {
   const addPerson = (e) => {
     e.preventDefault()
 
-    const p = persons.find(person => 
+    const personData = persons.find(person => 
       person.name.toLocaleLowerCase() === newName.toLocaleLowerCase())
 
-    if (typeof p === 'object') {
-      if (window.confirm(`${p.name} already exist, change number?`)) {
-        service.updatePerson(p.id, { ...p, number: newNumber })
-        setPersons(persons.map(person => 
-          person.id === p.id 
-          ? { ...p, number: newNumber } 
-          : person))
+    if (typeof personData === 'object') {
+      if (window.confirm(`${personData.name} already exist, change number?`)) {
+        service.updatePerson(personData.id, { ...personData, number: newNumber })
+        .then(resPersonData => setPersons(persons.map(person => 
+          person.id === resPersonData.id ? resPersonData : person)))
       }
     } else {
       service.createPerson({ name: newName, number: newNumber })
