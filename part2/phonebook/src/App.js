@@ -8,6 +8,10 @@ const Header = ({heading}) => <h2>{heading}</h2>
 const Display = ({person: {name, number}}) => <p>{name} {number}</p>
 
 
+const Notification = ({message}) => 
+  message === null ? null : <div className='success'><p>{message}</p></div>
+
+
 const Input = ({title, value, trigger}) => 
   <div>{title}: <input value={value} onChange={trigger}/></div>
 
@@ -29,6 +33,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
+  const [successMsg, setSuccessMsg] = useState(null)
 
   useEffect(() => {
     service.getAllPersons().then(personsData => setPersons(personsData))
@@ -52,14 +57,18 @@ const App = () => {
       service.createPerson({ name: newName, number: newNumber })
       .then(newPersonData => setPersons(persons.concat(newPersonData)))
     }
-
+    
     setNewName('')
     setNewNumber('')
+    setSuccessMsg(`Added ${newName}`)
+    setTimeout(() => {
+      setSuccessMsg(null)
+    }, 3000);
   }
 
   const removePerson = (id) => {
     service.deletePerson(id)
-    setPersons(persons.filter(person => person.id != id))
+    setPersons(persons.filter(person => person.id !== id))
   }
 
   const filtered = persons.filter(person => 
@@ -68,6 +77,7 @@ const App = () => {
   return (
     <div>
       <Header heading={'Phonebook'} />
+      <Notification message={successMsg} />
       <Input 
         title={'filter shown with'} 
         value={newFilter} 
