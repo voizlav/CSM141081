@@ -39,7 +39,7 @@ app.get("/info", (_, res) =>
 
 app.get("/api/persons/:id", (req, res) =>
   req.params.id <= data.length && req.params.id >= 1
-    ? res.json(data.find((person) => person.id === Number(req.params.id)))
+    ? res.json(data.find((person) => person.id === req.params.id))
     : res.status(404).end()
 );
 
