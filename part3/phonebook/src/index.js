@@ -7,22 +7,22 @@ app.use(express.json());
 
 let data = [
   {
-    id: 1,
+    id: "cabf619f",
     name: "Arto Hellas",
     number: "040-123456",
   },
   {
-    id: 2,
+    id: "3f3c036b",
     name: "Ada Lovelace",
     number: "39-44-5323523",
   },
   {
-    id: 3,
+    id: "85042d8b",
     name: "Dan Abramov",
     number: "12-43-234345",
   },
   {
-    id: 4,
+    id: "529f1a61",
     name: "Mary Poppendieck",
     number: "39-23-6423122",
   },
@@ -37,11 +37,10 @@ app.get("/info", (_, res) =>
   )
 );
 
-app.get("/api/persons/:id", (req, res) =>
-  req.params.id <= data.length && req.params.id >= 1
-    ? res.json(data.find((person) => person.id === req.params.id))
-    : res.status(404).end()
-);
+app.get("/api/persons/:id", (req, res) => {
+  const person = data.find((person) => person.id === req.params.id);
+  person ? res.json(person) : res.status(404).end();
+});
 
 app.delete("/api/persons/:id", (req, res) => {
   data = data.filter((person) => person.id !== req.params.id);
