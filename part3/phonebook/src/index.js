@@ -1,6 +1,9 @@
 const express = require("express");
-const app = express();
+const crypto = require("crypto");
+
 const PORT = 3001;
+const app = express();
+app.use(express.json());
 
 let data = [
   {
@@ -43,6 +46,19 @@ app.get("/api/persons/:id", (req, res) =>
 app.delete("/api/persons/:id", (req, res) => {
   data = data.filter((person) => person.id !== Number(req.params.id));
   res.status(204).end();
+});
+
+app.post("/api/persons", (req, res) => {
+  if (!Object.keys(req.body).length)
+    return res.status(400).json("Content is missing");
+
+  data = data.concat({
+    name: req.body.name,
+    number: req.body.number,
+    id: crypto.randomUUID().split("-")[0],
+  });
+
+  res.status(200).json(data.slice(-1)[0]);
 });
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
