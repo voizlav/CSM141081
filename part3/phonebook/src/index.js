@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const PORT = 3001;
 
-const data = [
+let data = [
   {
     id: 1,
     name: "Arto Hellas",
@@ -35,9 +35,14 @@ app.get("/info", (_, res) =>
 );
 
 app.get("/api/persons/:id", (req, res) =>
-  Number(req.params.id) > data.length || Number(req.params.id) < 1
-    ? res.status(404).end()
-    : res.json(data.find((person) => person.id === Number(req.params.id)))
+  req.params.id <= data.length && req.params.id >= 1
+    ? res.json(data.find((person) => person.id === Number(req.params.id)))
+    : res.status(404).end()
 );
+
+app.delete("/api/persons/:id", (req, res) => {
+  data = data.filter((person) => person.id !== Number(req.params.id));
+  res.status(204).end();
+});
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
