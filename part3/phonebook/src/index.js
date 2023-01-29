@@ -49,8 +49,25 @@ app.delete("/api/persons/:id", (req, res) => {
 });
 
 app.post("/api/persons", (req, res) => {
-  if (!Object.keys(req.body).length)
-    return res.status(400).json("Content is missing");
+  if (!req.body.name)
+    return res.status(400).json({
+      error: "Name is missing",
+    });
+
+  if (!req.body.number)
+    return res.status(400).json({
+      error: "Number is missing",
+    });
+
+  if (
+    data.findIndex(
+      (person) =>
+        person.name.toLocaleLowerCase() === req.body.name.toLocaleLowerCase()
+    ) !== -1
+  )
+    return res.status(400).json({
+      error: "Name must be unique",
+    });
 
   data = data.concat({
     name: req.body.name,
