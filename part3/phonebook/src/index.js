@@ -58,12 +58,12 @@ app.post("/api/persons", (req, res) => {
       error: "Number is missing",
     });
 
-  if (
-    data.findIndex(
-      (person) =>
-        person.name.toLocaleLowerCase() === req.body.name.toLocaleLowerCase()
-    ) !== -1
-  )
+  const person = data.find(
+    (person) =>
+      person.name.toLocaleLowerCase() === req.body.name.toLocaleLowerCase()
+  );
+
+  if (person)
     return res.status(400).json({
       error: "Name must be unique",
     });
