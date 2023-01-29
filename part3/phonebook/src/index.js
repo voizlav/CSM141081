@@ -44,7 +44,7 @@ app.get("/api/persons/:id", (req, res) =>
 );
 
 app.delete("/api/persons/:id", (req, res) => {
-  data = data.filter((person) => person.id !== Number(req.params.id));
+  data = data.filter((person) => person.id !== req.params.id);
   res.status(204).end();
 });
 
