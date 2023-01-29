@@ -34,4 +34,10 @@ app.get("/info", (_, res) =>
   )
 );
 
+app.get("/api/persons/:id", (req, res) =>
+  Number(req.params.id) > data.length || Number(req.params.id) < 1
+    ? res.status(404).end()
+    : res.json(data.filter((person) => person.id === Number(req.params.id)))
+);
+
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
