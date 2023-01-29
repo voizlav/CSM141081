@@ -25,4 +25,6 @@ const data = [
   },
 ];
 
+app.get("/api/persons", (_, res) => res.json(data));
+
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
