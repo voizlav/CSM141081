@@ -1,9 +1,13 @@
 const express = require("express");
 const crypto = require("crypto");
 const morgan = require("morgan");
+const cors = require("cors");
 
 const PORT = 3001;
 const app = express();
+
+app.use(cors());
+app.use(express.static("build"));
 app.use(express.json());
 app.use(
   morgan((tokens, req, res) => {
