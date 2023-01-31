@@ -65,10 +65,11 @@ const App = () => {
               )
             )
           );
-    } else
+    } else {
       service
         .createPerson({ name: newName, number: newNumber })
         .then((newPersonData) => setPersons(persons.concat(newPersonData)));
+    }
 
     setNewName("");
     setNewNumber("");
