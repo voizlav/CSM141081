@@ -44,6 +44,7 @@ const Peeps = mongoose.model(
 
 process.argv.length < 4
   ? Peeps.find().then((result) => {
+      console.log("Phonebook:");
       result.forEach((person) =>
         console.log(`${person.name} ${person.number}`)
       );
