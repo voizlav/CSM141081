@@ -17,7 +17,7 @@ process.argv.length === 5
   : null;
 
 process.argv.length === 5
-  ? !/^[\p{L} ]+$/u.test(process.argv[3])
+  ? !/^\p{L}+(\s\p{L}+)*$/u.test(process.argv[3])
     ? (console.error("Invalid name"), process.exit(1))
     : !/^\d+(?:-\d+)?$/.test(process.argv[4])
     ? (console.error("Invalid number"), process.exit(1))
