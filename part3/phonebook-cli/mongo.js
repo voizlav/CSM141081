@@ -61,7 +61,7 @@ process.argv.length < 4
     })
   : new Peeps({
       id: crypto.randomUUID().split("-")[0],
-      name: process.argv[3].trim(),
+      name: process.argv[3].trim().replace(/\s+/g, " "),
       number: process.argv[4],
     })
       .save()
