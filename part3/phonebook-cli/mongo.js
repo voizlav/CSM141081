@@ -17,7 +17,7 @@ process.argv.length === 5
   : null;
 
 process.argv.length === 5
-  ? !/^[\p{L}]+$/u.test(process.argv[3])
+  ? !/^[\p{L} ]+$/u.test(process.argv[3])
     ? (console.error("Invalid name"), process.exit(1))
     : !/^\d+(?:-\d+)?$/.test(process.argv[4])
     ? (console.error("Invalid number"), process.exit(1))
@@ -61,7 +61,7 @@ process.argv.length < 4
     })
   : new Peeps({
       id: crypto.randomUUID().split("-")[0],
-      name: process.argv[3],
+      name: process.argv[3].trim(),
       number: process.argv[4],
     })
       .save()
