@@ -6,15 +6,17 @@ process.argv.length < 3
   ? (console.error("Must provide password"), process.exit(1))
   : null;
 
-const PASS = process.argv[2];
-const DBUSER = process.env.DBUSER;
-const CLUSTER = process.env.CLUSTER;
-const REGION = process.env.REGION;
-const DATABASE = process.env.DATABASE;
-const URI = `mongodb+srv://${DBUSER}:${PASS}@${CLUSTER}.${REGION}.mongodb.net/${DATABASE}?retryWrites=true&w=majority`;
+!process.env.DBUSER ||
+!process.env.CLUSTER ||
+!process.env.REGION ||
+!process.env.DATABASE
+  ? (console.error("Must provide configuration"), process.exit(1))
+  : null;
 
 mongoose.set("strictQuery", false);
-mongoose.connect(URI);
+mongoose.connect(
+  `mongodb+srv://${process.env.DBUSER}:${process.argv[2]}@${process.env.CLUSTER}.${process.env.REGION}.mongodb.net/${process.env.DATABASE}?retryWrites=true&w=majority`
+);
 
 const Peeps = mongoose.model(
   "Peeps",
@@ -27,9 +29,9 @@ const Peeps = mongoose.model(
 
 process.argv.length < 4
   ? Peeps.find().then((result) => {
-      result.forEach((person) => {
-        console.log(`${person.name} ${person.number}`);
-      });
+      result.forEach((person) =>
+        console.log(`${person.name} ${person.number}`)
+      );
       mongoose.connection.close();
     })
   : new Peeps({
