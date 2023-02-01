@@ -2,6 +2,7 @@ const express = require("express");
 const crypto = require("crypto");
 const morgan = require("morgan");
 const cors = require("cors");
+const Peeps = require("./models/person");
 
 const PORT = 3001;
 const app = express();
@@ -24,6 +25,7 @@ app.use(
   })
 );
 
+/*
 let data = [
   {
     id: "cabf619f",
@@ -46,8 +48,16 @@ let data = [
     number: "39-23-6423122",
   },
 ];
+*/
 
-app.get("/api/persons", (_, res) => res.json(data));
+app.get("/api/persons", (_, res) =>
+  Peeps.find()
+    .then((result) => res.json(result))
+    .catch((error) => {
+      console.error(error.message);
+      res.status(500).end();
+    })
+);
 
 app.get("/info", (_, res) =>
   res.send(
