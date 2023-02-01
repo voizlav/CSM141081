@@ -15,7 +15,13 @@ process.argv.length < 3
 
 mongoose.set("strictQuery", false);
 mongoose.connect(
-  `mongodb+srv://${process.env.DBUSER}:${process.argv[2]}@${process.env.CLUSTER}.${process.env.REGION}.mongodb.net/${process.env.DATABASE}?retryWrites=true&w=majority`
+  `mongodb+srv://` +
+    `${process.env.DBUSER}` +
+    `:${process.argv[2]}` +
+    `@${process.env.CLUSTER}` +
+    `.${process.env.REGION}` +
+    `.mongodb.net/` +
+    `${process.env.DATABASE}?retryWrites=true&w=majority`
 );
 
 const Peeps = mongoose.model(
