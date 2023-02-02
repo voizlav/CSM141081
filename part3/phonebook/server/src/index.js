@@ -49,8 +49,12 @@ app.get("/info", (_, res) =>
 );
 
 app.get("/api/persons/:id", (req, res) => {
-  const person = data.find((person) => person.id === req.params.id);
-  person ? res.json(person) : res.status(404).end();
+  Peeps.findById(req.params.id)
+    .then((result) => res.json(result))
+    .catch((error) => {
+      console.log(error.message);
+      res.status(404).end();
+    });
 });
 
 app.delete("/api/persons/:id", (req, res) => {
