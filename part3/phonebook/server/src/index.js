@@ -57,8 +57,10 @@ app.get("/api/persons/:id", (req, res) => {
 });
 
 app.delete("/api/persons/:id", (req, res) => {
-  Peeps.findOneAndDelete(req.params.id)
-    .then((result) => res.status(204).end())
+  Peeps.findByIdAndRemove(req.params.id)
+    .then((result) => {
+      res.status(204).end();
+    })
     .catch((error) => {
       console.error(error.message);
       res.status(500).end();
