@@ -58,8 +58,12 @@ app.get("/api/persons/:id", (req, res) => {
 });
 
 app.delete("/api/persons/:id", (req, res) => {
-  data = data.filter((person) => person.id !== req.params.id);
-  res.status(204).end();
+  Peeps.findOneAndDelete(req.params.id)
+    .then((result) => res.status(204).end())
+    .catch((error) => {
+      console.error(error.message);
+      res.status(500).end();
+    });
 });
 
 app.post("/api/persons", (req, res) => {
