@@ -8,4 +8,4 @@ const createPerson = (newPerson) =>
 
 const deletePerson = (id) => axios.delete(`${BASEURL}/${id}`);
 
-export default { getAllPersons, createPerson, updatePerson, deletePerson };
+export default { getAllPersons, createPerson, deletePerson };
