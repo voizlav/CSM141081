@@ -49,27 +49,9 @@ const App = () => {
   const addPerson = (e) => {
     e.preventDefault();
 
-    const personData = persons.find(
-      (person) =>
-        person.name.toLocaleLowerCase() === newName.toLocaleLowerCase()
-    );
-
-    if (personData) {
-      if (window.confirm(`${personData.name} already exist, change number?`))
-        service
-          .updatePerson(personData.id, { ...personData, number: newNumber })
-          .then((resPersonData) =>
-            setPersons(
-              persons.map((person) =>
-                person.id === resPersonData.id ? resPersonData : person
-              )
-            )
-          );
-    } else {
-      service
-        .createPerson({ name: newName, number: newNumber })
-        .then((newPersonData) => setPersons(persons.concat(newPersonData)));
-    }
+    service
+      .createPerson({ name: newName, number: newNumber })
+      .then((newPersonData) => setPersons(persons.concat(newPersonData)));
 
     setNewName("");
     setNewNumber("");
