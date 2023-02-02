@@ -51,14 +51,22 @@ const App = () => {
 
     service
       .createPerson({ name: newName, number: newNumber })
-      .then((newPersonData) => setPersons(persons.concat(newPersonData)));
+      .then((newPersonData) => {
+        setPersons(persons.concat(newPersonData));
+        setSuccessMsg(`Added ${newName}`);
+        setTimeout(() => {
+          setSuccessMsg(null);
+        }, 3000);
+      })
+      .catch((error) => {
+        setErrorMsg(error.response.data.error);
+        setTimeout(() => {
+          setErrorMsg(null);
+        }, 3000);
+      });
 
     setNewName("");
     setNewNumber("");
-    setSuccessMsg(`Added ${newName}`);
-    setTimeout(() => {
-      setSuccessMsg(null);
-    }, 3000);
   };
 
   const removePerson = (id) => {
@@ -66,7 +74,7 @@ const App = () => {
       .deletePerson(id)
       .then(setPersons(persons.filter((person) => person.id !== id)))
       .catch((error) => {
-        setErrorMsg(`Information has already been removed from the server`);
+        setErrorMsg("Data already removed");
         setTimeout(() => {
           setErrorMsg(null);
         }, 5000);
