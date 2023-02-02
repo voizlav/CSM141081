@@ -25,31 +25,6 @@ app.use(
   })
 );
 
-/*
-let data = [
-  {
-    id: "cabf619f",
-    name: "Arto Hellas",
-    number: "040-123456",
-  },
-  {
-    id: "3f3c036b",
-    name: "Ada Lovelace",
-    number: "39-44-5323523",
-  },
-  {
-    id: "85042d8b",
-    name: "Dan Abramov",
-    number: "12-43-234345",
-  },
-  {
-    id: "529f1a61",
-    name: "Mary Poppendieck",
-    number: "39-23-6423122",
-  },
-];
-*/
-
 app.get("/api/persons", (_, res) =>
   Peeps.find()
     .then((result) => res.json(result))
@@ -60,10 +35,17 @@ app.get("/api/persons", (_, res) =>
 );
 
 app.get("/info", (_, res) =>
-  res.send(
-    `<p>Phonebook has info for ${data.length} people</p>
-    <p>${new Date()}</p>`
-  )
+  Peeps.find()
+    .then((result) =>
+      res.send(
+        `<p>Phonebook has info for ${result.length} people</p>
+         <p>${new Date()}</p>`
+      )
+    )
+    .catch((error) => {
+      console.error(error.message);
+      res.status(500).end();
+    })
 );
 
 app.get("/api/persons/:id", (req, res) => {
