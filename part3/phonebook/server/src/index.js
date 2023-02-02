@@ -1,5 +1,4 @@
 const express = require("express");
-const crypto = require("crypto");
 const morgan = require("morgan");
 const cors = require("cors");
 const Peeps = require("./models/person");
@@ -77,23 +76,36 @@ app.post("/api/persons", (req, res) => {
       error: "Number is missing",
     });
 
-  const person = data.find(
-    (person) =>
-      person.name.toLocaleLowerCase() === req.body.name.toLocaleLowerCase()
-  );
-
-  if (person)
+  if (req.body.name.length > 30 || req.body.name.length < 3)
     return res.status(400).json({
-      error: "Name must be unique",
+      error: "Name length out of scope",
     });
 
-  data = data.concat({
+  if (req.body.number.length > 30 || req.body.number.length < 3)
+    return res.status(400).json({
+      error: "Number length out of scope",
+    });
+
+  if (!/^\p{L}+(\s\p{L}+)*$/u.test(req.body.name))
+    return res.status(400).json({
+      error: "Invalid name",
+    });
+
+  if (!/^\d+(?:-\d+)?$/.test(req.body.number))
+    return res.status(400).json({
+      error: "Invalid number",
+    });
+
+  new Peeps({
     name: req.body.name,
     number: req.body.number,
-    id: crypto.randomUUID().split("-")[0],
-  });
-
-  res.status(200).json(data.slice(-1)[0]);
+  })
+    .save()
+    .then((result) => res.status(200).json(result))
+    .catch((error) => {
+      console.error(error.message);
+      res.status(500).end();
+    });
 });
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
