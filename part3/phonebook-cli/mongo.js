@@ -42,22 +42,19 @@ const Peeps = mongoose.model(
   })
 );
 
-process.argv.length < 4
-  ? Peeps.find().then((result) => {
-      console.log("Phonebook:");
-      result.forEach((person) =>
-        console.log(`${person.name} ${person.number}`)
-      );
+if (process.argv.length === 3)
+  Peeps.find().then((result) => {
+    console.log("Phonebook:");
+    result.forEach((person) => console.log(`${person.name} ${person.number}`));
+    mongoose.connection.close();
+  });
+else
+  new Peeps({
+    name: process.argv[3],
+    number: process.argv[4],
+  })
+    .save()
+    .then((result) => {
+      console.log(`Added ${result.name} number ${result.number} to phonebook`);
       mongoose.connection.close();
-    })
-  : new Peeps({
-      name: process.argv[3],
-      number: process.argv[4],
-    })
-      .save()
-      .then((result) => {
-        console.log(
-          `Added ${result.name} number ${result.number} to phonebook`
-        );
-        mongoose.connection.close();
-      });
+    });
