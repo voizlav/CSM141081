@@ -3,7 +3,7 @@
   font-weight: 700;
   font-size: medium;
   letter-spacing: .1rem;
-  max-width: 15rem;
+  display: inline-block;
   padding: .5rem 1rem;
   margin: 1rem .1rem;
   border-radius: .5rem;
@@ -17,7 +17,7 @@
   font-weight: 700;
   font-size: medium;
   letter-spacing: .1rem;
-  max-width: 15rem;
+  display: inline-block;
   padding: .5rem 1rem;
   margin: 1rem .1rem;
   border-radius: .5rem;
