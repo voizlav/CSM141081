@@ -11,8 +11,8 @@ app.use(cors());
 app.use(express.static("build"));
 app.use(express.json());
 app.use(
-  morgan((tokens, req, res) => {
-    return [
+  morgan((tokens, req, res) =>
+    [
       tokens.method(req, res),
       tokens.url(req, res),
       tokens.status(req, res),
@@ -21,8 +21,8 @@ app.use(
       tokens["response-time"](req, res),
       "ms",
       JSON.stringify(req.body),
-    ].join(" ");
-  })
+    ].join(" ")
+  )
 );
 
 app.get("/api/persons", (_, res, next) =>
@@ -50,7 +50,7 @@ app.get("/api/persons/:id", (req, res, next) => {
 
 app.delete("/api/persons/:id", (req, res, next) => {
   Peeps.findByIdAndRemove(req.params.id)
-    .then((result) => res.status(204).end())
+    .then(() => res.status(204).end())
     .catch((error) => next(error));
 });
 
@@ -75,21 +75,22 @@ const notFound = (req, res) => {
 };
 app.use(notFound);
 
-const errorHandler = (error, req, res, next) => {
+const errorHandler = (error, req, res) => {
   console.error(error.message);
 
   if (error instanceof mongoose.Error.ValidationError)
     return res.status(400).json({
       error: error.message,
     });
-  else if (error instanceof mongoose.Error.CastError)
+
+  if (error instanceof mongoose.Error.CastError)
     return res.status(400).json({
       error: "Malformatted ID",
     });
-  else
-    return res.status(500).json({
-      error: "Internal Server Error",
-    });
+
+  return res.status(500).json({
+    error: "Internal Server Error",
+  });
 };
 app.use(errorHandler);
 

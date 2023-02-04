@@ -8,7 +8,7 @@ const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
 mongoose
   .connect(process.env.DATABASE_URI)
-  .then((result) => console.log("Connection established to database"))
+  .then(() => console.log("Connection established to database"))
   .catch((error) =>
     console.error(
       "Failure in establishing a connection to MongoDB:",
