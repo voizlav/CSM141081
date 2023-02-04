@@ -17,8 +17,20 @@ mongoose
   );
 
 const peepsSchema = new mongoose.Schema({
-  name: String,
-  number: String,
+  name: {
+    type: String,
+    required: true,
+    minlength: 3,
+    maxlength: 30,
+    match: /^\p{L}+(\s\p{L}+)*$/u,
+  },
+  number: {
+    type: String,
+    required: true,
+    minlength: 3,
+    maxlength: 15,
+    match: /^\d+(?:-\d+)?$/,
+  },
 });
 
 peepsSchema.set("toJSON", {

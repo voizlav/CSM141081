@@ -78,10 +78,9 @@ app.use(notFound);
 const errorHandler = (error, req, res, next) => {
   console.error(error.message);
 
-  // TODO: mongoose validation schema
   if (error instanceof mongoose.Error.ValidationError)
     return res.status(400).json({
-      error: "Validation Error",
+      error: "Invalid name or number",
     });
   else if (error instanceof mongoose.Error.CastError)
     return res.status(400).json({
