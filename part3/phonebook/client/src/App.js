@@ -12,7 +12,7 @@ const Display = ({ person: { name, number } }) => (
 const Notification = ({ message, type }) =>
   message === null ? null : (
     <div className={type}>
-      <p>{message}</p>
+      <pre>{message}</pre>
     </div>
   );
 
@@ -83,10 +83,10 @@ const App = () => {
           }, 3000);
         })
         .catch((error) => {
-          setErrorMsg(error.response.data.error);
+          setErrorMsg(error.response.data.error.slice(25).replace(", ", "\n"));
           setTimeout(() => {
             setErrorMsg(null);
-          }, 3000);
+          }, 5000);
         });
 
     setNewName("");
