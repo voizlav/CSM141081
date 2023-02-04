@@ -1,6 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
+const mongoose = require("mongoose");
 const Peeps = require("./models/person");
 
 const PORT = 3001;
@@ -27,10 +28,7 @@ app.use(
 app.get("/api/persons", (_, res) =>
   Peeps.find()
     .then((result) => res.json(result))
-    .catch((error) => {
-      console.error(error.message);
-      res.status(500).end();
-    })
+    .catch((error) => next(error))
 );
 
 app.get("/info", (_, res) =>
@@ -41,30 +39,19 @@ app.get("/info", (_, res) =>
          <p>${new Date()}</p>`
       )
     )
-    .catch((error) => {
-      console.error(error.message);
-      res.status(500).end();
-    })
+    .catch((error) => next(error))
 );
 
-app.get("/api/persons/:id", (req, res) => {
+app.get("/api/persons/:id", (req, res, next) => {
   Peeps.findById(req.params.id)
     .then((result) => res.json(result))
-    .catch((error) => {
-      console.log(error.message);
-      res.status(404).end();
-    });
+    .catch((error) => next(error));
 });
 
 app.delete("/api/persons/:id", (req, res) => {
   Peeps.findByIdAndRemove(req.params.id)
-    .then((result) => {
-      res.status(204).end();
-    })
-    .catch((error) => {
-      console.error(error.message);
-      res.status(500).end();
-    });
+    .then((result) => res.status(204).end())
+    .catch((error) => next(error));
 });
 
 app.post("/api/persons", (req, res) => {
@@ -109,5 +96,30 @@ app.post("/api/persons", (req, res) => {
       res.status(500).end();
     });
 });
+
+const notFound = (req, res) => {
+  res.status(404).send({ error: "Unknown endpoint" });
+};
+app.use(notFound);
+
+function errorHandler(error, req, res, next) {
+  console.error(error.message);
+
+  // TODO: mongoose validation schema
+  if (error instanceof mongoose.Error.ValidationError) {
+    return res.status(400).json({
+      error: "Validation Error",
+    });
+  } else if (error instanceof mongoose.Error.CastError) {
+    return res.status(400).json({
+      error: "Malformatted ID",
+    });
+  } else {
+    return res.status(500).json({
+      error: "Internal Server Error",
+    });
+  }
+}
+app.use(errorHandler);
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
