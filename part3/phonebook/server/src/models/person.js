@@ -20,8 +20,8 @@ const peepsSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, "Missing content"],
-    minlength: [3, "Name must be at least 3 letters long"],
-    maxlength: [30, "Name must be a maximum of 30 letters"],
+    minlength: [3, "Must be at least 3 letters long"],
+    maxlength: [30, "Must be a maximum of 30 letters"],
     match: [/^\p{L}+(\s\p{L}+)*$/u, "Invalid format"],
   },
   number: {
