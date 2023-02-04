@@ -46,39 +46,66 @@ const App = () => {
     service.getAllPersons().then((personsData) => setPersons(personsData));
   }, []);
 
+  const updatePersonNumber = (personData) => {
+    if (window.confirm(`${personData.name} already exist, change number?`))
+      service
+        .updatePerson(personData.id, { ...personData, number: newNumber })
+        .then((result) =>
+          setPersons(
+            persons.map((person) => (person.id === result.id ? result : person))
+          )
+        )
+        .catch((error) => {
+          setErrorMsg(error.response.data.error);
+          setTimeout(() => {
+            setErrorMsg(null);
+          }, 3000);
+        });
+  };
+
   const addPerson = (e) => {
     e.preventDefault();
 
-    service
-      .createPerson({ name: newName, number: newNumber })
-      .then((newPersonData) => {
-        setPersons(persons.concat(newPersonData));
-        setSuccessMsg(`Added ${newName}`);
-        setTimeout(() => {
-          setSuccessMsg(null);
-        }, 3000);
-      })
-      .catch((error) => {
-        setErrorMsg(error.response.data.error);
-        setTimeout(() => {
-          setErrorMsg(null);
-        }, 3000);
-      });
+    const personData = persons.find(
+      (person) =>
+        person.name.toLocaleLowerCase() === newName.toLocaleLowerCase()
+    );
+
+    if (personData) updatePersonNumber(personData);
+    else
+      service
+        .createPerson({ name: newName, number: newNumber })
+        .then((newPersonData) => {
+          setPersons(persons.concat(newPersonData));
+          setSuccessMsg(`Added ${newName}`);
+          setTimeout(() => {
+            setSuccessMsg(null);
+          }, 3000);
+        })
+        .catch((error) => {
+          setErrorMsg(error.response.data.error);
+          setTimeout(() => {
+            setErrorMsg(null);
+          }, 3000);
+        });
 
     setNewName("");
     setNewNumber("");
   };
 
-  const removePerson = (id) => {
-    service
-      .deletePerson(id)
-      .then(setPersons(persons.filter((person) => person.id !== id)))
-      .catch((error) => {
-        setErrorMsg("Data already removed");
-        setTimeout(() => {
-          setErrorMsg(null);
-        }, 5000);
-      });
+  const removePerson = (personData) => {
+    if (window.confirm(`Delete ${personData.name}?`))
+      service
+        .deletePerson(personData.id)
+        .then(
+          setPersons(persons.filter((person) => person.id !== personData.id))
+        )
+        .catch((error) => {
+          setErrorMsg("Data already removed");
+          setTimeout(() => {
+            setErrorMsg(null);
+          }, 5000);
+        });
   };
 
   const filtered = persons.filter((person) =>
@@ -107,15 +134,7 @@ const App = () => {
       {filtered.map((person) => (
         <div key={person.id}>
           <Display person={person} />
-          <button
-            onClick={() =>
-              window.confirm(`Delete ${person.name}?`)
-                ? removePerson(person.id)
-                : null
-            }
-          >
-            remove
-          </button>
+          <button onClick={() => removePerson(person)}>remove</button>
         </div>
       ))}
     </div>
