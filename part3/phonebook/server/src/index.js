@@ -25,13 +25,13 @@ app.use(
   })
 );
 
-app.get("/api/persons", (_, res) =>
+app.get("/api/persons", (_, res, next) =>
   Peeps.find()
     .then((result) => res.json(result))
     .catch((error) => next(error))
 );
 
-app.get("/info", (_, res) =>
+app.get("/info", (_, res, next) =>
   Peeps.find()
     .then((result) =>
       res.send(
@@ -48,53 +48,26 @@ app.get("/api/persons/:id", (req, res, next) => {
     .catch((error) => next(error));
 });
 
-app.delete("/api/persons/:id", (req, res) => {
+app.delete("/api/persons/:id", (req, res, next) => {
   Peeps.findByIdAndRemove(req.params.id)
     .then((result) => res.status(204).end())
     .catch((error) => next(error));
 });
 
-app.post("/api/persons", (req, res) => {
-  if (!req.body.name)
-    return res.status(400).json({
-      error: "Name is missing",
-    });
-
-  if (!req.body.number)
-    return res.status(400).json({
-      error: "Number is missing",
-    });
-
-  if (req.body.name.length > 30 || req.body.name.length < 3)
-    return res.status(400).json({
-      error: "Name length out of scope",
-    });
-
-  if (req.body.number.length > 30 || req.body.number.length < 3)
-    return res.status(400).json({
-      error: "Number length out of scope",
-    });
-
-  if (!/^\p{L}+(\s\p{L}+)*$/u.test(req.body.name))
-    return res.status(400).json({
-      error: "Invalid name",
-    });
-
-  if (!/^\d+(?:-\d+)?$/.test(req.body.number))
-    return res.status(400).json({
-      error: "Invalid number",
-    });
-
+app.post("/api/persons", (req, res, next) => {
   new Peeps({
     name: req.body.name,
     number: req.body.number,
   })
     .save()
     .then((result) => res.status(200).json(result))
-    .catch((error) => {
-      console.error(error.message);
-      res.status(500).end();
-    });
+    .catch((error) => next(error));
+});
+
+app.put("/api/persons/:id", (req, res, next) => {
+  Peeps.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    .then((result) => res.status(200).json(result))
+    .catch((error) => next(error));
 });
 
 const notFound = (req, res) => {
@@ -102,7 +75,7 @@ const notFound = (req, res) => {
 };
 app.use(notFound);
 
-function errorHandler(error, req, res, next) {
+const errorHandler = (error, req, res, next) => {
   console.error(error.message);
 
   // TODO: mongoose validation schema
@@ -119,7 +92,7 @@ function errorHandler(error, req, res, next) {
       error: "Internal Server Error",
     });
   }
-}
+};
 app.use(errorHandler);
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
