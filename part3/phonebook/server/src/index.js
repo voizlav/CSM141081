@@ -79,19 +79,18 @@ const errorHandler = (error, req, res, next) => {
   console.error(error.message);
 
   // TODO: mongoose validation schema
-  if (error instanceof mongoose.Error.ValidationError) {
+  if (error instanceof mongoose.Error.ValidationError)
     return res.status(400).json({
       error: "Validation Error",
     });
-  } else if (error instanceof mongoose.Error.CastError) {
+  else if (error instanceof mongoose.Error.CastError)
     return res.status(400).json({
       error: "Malformatted ID",
     });
-  } else {
+  else
     return res.status(500).json({
       error: "Internal Server Error",
     });
-  }
 };
 app.use(errorHandler);
 
