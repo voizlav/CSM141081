@@ -80,7 +80,7 @@ const errorHandler = (error, req, res, next) => {
 
   if (error instanceof mongoose.Error.ValidationError)
     return res.status(400).json({
-      error: "Invalid name or number",
+      error: error.message,
     });
   else if (error instanceof mongoose.Error.CastError)
     return res.status(400).json({
