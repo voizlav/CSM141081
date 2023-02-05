@@ -4,7 +4,7 @@ const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
 const { DATABASE_URI } = require("./utils/config");
-const { info, error } = require("./utils/config");
+const { info, error } = require("./utils/logger");
 
 const blogSchema = new mongoose.Schema({
   title: String,
@@ -36,4 +36,4 @@ app.post("/api/blogs", (request, response) => {
   });
 });
 
-module.exports = { app };
+module.exports = { app, mongoose };
