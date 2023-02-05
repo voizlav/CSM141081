@@ -4,6 +4,7 @@ const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
 const { DATABASE_URI } = require("./utils/config");
+const { info, error } = require("./utils/config");
 
 const blogSchema = new mongoose.Schema({
   title: String,
@@ -16,7 +17,7 @@ const Blog = mongoose.model("Blog", blogSchema);
 
 const mongoUrl = DATABASE_URI;
 mongoose.connect(mongoUrl);
-console.log("Connection established to database");
+info("Connection established to database");
 
 app.use(cors());
 app.use(express.json());
