@@ -1,9 +1,9 @@
-require("dotenv").config();
 const http = require("http");
 const express = require("express");
 const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
+const { DATABASE_URI } = require("./utils/config");
 
 const blogSchema = new mongoose.Schema({
   title: String,
@@ -14,7 +14,7 @@ const blogSchema = new mongoose.Schema({
 
 const Blog = mongoose.model("Blog", blogSchema);
 
-const mongoUrl = process.env.DATABASE_URI;
+const mongoUrl = DATABASE_URI;
 mongoose.connect(mongoUrl);
 console.log("Connection established to database");
 
