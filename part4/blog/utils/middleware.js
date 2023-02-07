@@ -11,7 +11,7 @@ const requestLog = (req, _, next) => {
 };
 
 const notFound = (_, res) => {
-  res.status(404).json({ error: "Unknown endpoint" });
+  res.status(404).send({ error: "Unknown endpoint" });
 };
 
 const errorHandler = (err, _, res) => {
