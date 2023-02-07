@@ -8,6 +8,8 @@ test("dummy returns one", () => {
 });
 
 describe("total likes", () => {
+  const listNoBlogs = [];
+
   const listWithOneBlog = [
     {
       _id: "5a422aa71b54a676234d17f8",
@@ -37,6 +39,11 @@ describe("total likes", () => {
       __v: 0,
     },
   ];
+
+  test("when list has no blogs, equals to zero", () => {
+    const result = totalLikes(listNoBlogs);
+    expect(result).toBe(0);
+  });
 
   test("when list has only one blog, equals the likes of that", () => {
     const result = totalLikes(listWithOneBlog);
