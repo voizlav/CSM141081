@@ -100,7 +100,7 @@ const App = () => {
         .then(
           setPersons(persons.filter((person) => person.id !== personData.id))
         )
-        .catch((error) => {
+        .catch(() => {
           setErrorMsg("Data already removed");
           setTimeout(() => {
             setErrorMsg(null);
