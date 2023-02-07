@@ -75,22 +75,22 @@ const notFound = (req, res) => {
 };
 app.use(notFound);
 
-const errorHandler = (error, req, res) => {
+const errorHandler = (error, req, res, next) => {
   console.error(error.message);
 
-  if (error instanceof mongoose.Error.ValidationError)
+  if (error instanceof mongoose.Error.ValidationError) {
+    const errorMessage = Object.values(error.errors)
+      .map((val) => `${val.path}: ${val.message}`)
+      .join("\n");
     return res.status(400).json({
-      error: error.message,
+      error: errorMessage,
     });
-
-  if (error instanceof mongoose.Error.CastError)
+  } else if (error instanceof mongoose.Error.CastError) {
     return res.status(400).json({
       error: "Malformatted ID",
     });
-
-  return res.status(500).json({
-    error: "Internal Server Error",
-  });
+  }
+  next(error);
 };
 app.use(errorHandler);
 
