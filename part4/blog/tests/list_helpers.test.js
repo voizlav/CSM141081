@@ -129,4 +129,16 @@ describe("most likes", () => {
       __v: 0,
     });
   });
+
+  test("when list has two blogs, equals to with the most likes", () => {
+    const result = favoriteBlog(listWithTwoBlogs);
+    expect(result).toEqual({
+      _id: "5a422a851b54a676234d17f7",
+      title: "React patterns",
+      author: "Michael Chan",
+      url: "https://reactpatterns.com/",
+      likes: 7,
+      __v: 0,
+    });
+  });
 });
