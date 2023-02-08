@@ -130,7 +130,7 @@ describe("most likes", () => {
     });
   });
 
-  test("when list has two blogs, equals to with the most likes", () => {
+  test("when list has two blogs, equals to the blog with most likes", () => {
     const result = favoriteBlog(listWithTwoBlogs);
     expect(result).toEqual({
       _id: "5a422a851b54a676234d17f7",
@@ -138,6 +138,18 @@ describe("most likes", () => {
       author: "Michael Chan",
       url: "https://reactpatterns.com/",
       likes: 7,
+      __v: 0,
+    });
+  });
+
+  test("when list has many blogs, equals to the blog with most likes", () => {
+    const result = favoriteBlog(listWithManyBlogs);
+    expect(result).toEqual({
+      _id: "5a422b3a1b54a676234d17f9",
+      title: "Canonical string reduction",
+      author: "Edsger W. Dijkstra",
+      url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
+      likes: 12,
       __v: 0,
     });
   });
