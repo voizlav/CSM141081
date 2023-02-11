@@ -117,4 +117,9 @@ describe("most author likes", () => {
     const result = mostLikes(listWithOneBlog);
     expect(result).toEqual({ author: "Edsger W. Dijkstra", likes: 5 });
   });
+
+  test("when list has two blogs, equals to first author with most likes", () => {
+    const result = mostLikes(listWithTwoBlogs);
+    expect(result).toEqual({ author: "Michael Chan", likes: 7 });
+  });
 });
