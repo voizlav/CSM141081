@@ -89,8 +89,14 @@ describe("most blogs", () => {
     const result = mostBlogs(listWithNoBlogs);
     expect(result).toEqual({});
   });
+
   test("when list has one blog, equal to that author with one blog", () => {
     const result = mostBlogs(listWithOneBlog);
     expect(result).toEqual({ author: "Edsger W. Dijkstra", blogs: 1 });
+  });
+
+  test("when list has two blogs, equal to first author with the most blogs", () => {
+    const result = mostBlogs(listWithTwoBlogs);
+    expect(result).toEqual({ author: "Michael Chan", blogs: 1 });
   });
 });
