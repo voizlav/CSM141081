@@ -99,4 +99,9 @@ describe("most blogs", () => {
     const result = mostBlogs(listWithTwoBlogs);
     expect(result).toEqual({ author: "Michael Chan", blogs: 1 });
   });
+
+  test("when list has many blogs, equal to first author with the most blogs", () => {
+    const result = mostBlogs(listWithManyBlogs);
+    expect(result).toEqual({ author: "Robert C. Martin", blogs: 3 });
+  });
 });
