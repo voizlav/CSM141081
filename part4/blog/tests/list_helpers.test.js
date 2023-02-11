@@ -3,6 +3,7 @@ const {
   totalLikes,
   favoriteBlog,
   mostBlogs,
+  mostLikes,
 } = require("../utils/list_helper");
 
 const {
@@ -41,7 +42,7 @@ describe("total likes", () => {
   });
 });
 
-describe("most likes", () => {
+describe("most blog likes", () => {
   test("when list has no blogs, equals to empty object", () => {
     const result = favoriteBlog(listWithNoBlogs);
     expect(result).toEqual({});
@@ -103,5 +104,12 @@ describe("most blogs", () => {
   test("when list has many blogs, equal to first author with the most blogs", () => {
     const result = mostBlogs(listWithManyBlogs);
     expect(result).toEqual({ author: "Robert C. Martin", blogs: 3 });
+  });
+});
+
+describe("most author likes", () => {
+  test("when list has no blogs, equals to empty object", () => {
+    const result = mostLikes(listWithNoBlogs);
+    expect(result).toEqual({});
   });
 });
