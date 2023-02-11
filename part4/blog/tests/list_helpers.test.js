@@ -83,3 +83,10 @@ describe("most likes", () => {
     });
   });
 });
+
+describe("most blogs", () => {
+  test("when list has no blogs, equals to empty object", () => {
+    const result = mostBlogs(listWithNoBlogs);
+    expect(result).toEqual({});
+  });
+});
